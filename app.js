@@ -10,9 +10,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 
 app.get('/', (req, res) => {
-  const restaurants = restaurantList.results
-
-  res.render('index', { restaurants: restaurants })
+  res.render('index', { restaurants: restaurantList.results })
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
@@ -20,6 +18,13 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString(10) === restaurantId)
 
   res.render('show', { restaurant: restaurant })
+})
+
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword
+  const filteredRestaurants = restaurantList.results.filter(restaurant => restaurant.name.toLowerCase().includes(keyword.toLowerCase()))
+
+  res.render('index', { restaurants: filteredRestaurants, keyword: keyword })
 })
 
 app.listen(port, () => console.log(`The server is listening on port:${port}`))
