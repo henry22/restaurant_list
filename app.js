@@ -15,4 +15,11 @@ app.get('/', (req, res) => {
   res.render('index', { restaurants: restaurants })
 })
 
+app.get('/restaurants/:restaurant_id', (req, res) => {
+  const restaurantId = req.params.restaurant_id
+  const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString(10) === restaurantId)
+
+  res.render('show', { restaurant: restaurant })
+})
+
 app.listen(port, () => console.log(`The server is listening on port:${port}`))
